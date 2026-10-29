@@ -54,23 +54,27 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+def ui(html):
+    # Flatten HTML so Markdown never treats indented lines / blank lines as a code block
+    return "".join(line.strip() for line in html.splitlines())
+ 
 LOGO_URL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtI1K_OG63uKi0XhRXNTEcrni4IGHHq4llRhVgKmEcWJe6ncaaeZwkOA8&s=10"
-
+ 
 CSS = """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap');
-
+ 
 :root {
     --indigo:#4f46e5; --violet:#7c3aed; --sky:#0ea5e9; --amber:#f59e0b;
     --mint:#10b981; --rose:#f43f5e; --ink:#1e1b4b; --paper:#f6f8ff;
     --card:rgba(255,255,255,0.80);
 }
 html, body, [class*="css"] { font-family:'Poppins',sans-serif; }
-
+ 
 /* Streamlit chrome */
 #MainMenu, footer, [data-testid="stToolbar"], [data-testid="stDecoration"] { display:none !important; }
 header[data-testid="stHeader"] { background:transparent; }
-
+ 
 /* Background: ruled notebook + drifting colour blobs */
 .stApp {
     background:
@@ -82,7 +86,7 @@ header[data-testid="stHeader"] { background:transparent; }
     background-attachment: fixed;
 }
 .block-container { padding-top:1.2rem; max-width:1040px; }
-
+ 
 /* ================= HERO ================= */
 .hero {
     position:relative; overflow:hidden; border-radius:32px;
@@ -124,7 +128,7 @@ header[data-testid="stHeader"] { background:transparent; }
 .f3{top:62%; right:48%; animation-delay:2.4s}
 .f4{top:7%; right:4%; animation-delay:3.4s}
 .f5{bottom:12%; left:48%; animation-delay:4.2s}
-
+ 
 /* ================= ROBOT ================= */
 .robot-wrap { position:relative; z-index:2; height:290px; display:flex; justify-content:center; align-items:flex-end; }
 .say {
@@ -159,13 +163,13 @@ header[data-testid="stHeader"] { background:transparent; }
 .arm.r { right:6px; animation:wave 1.6s ease-in-out infinite; }
 .arm.r::after { content:"✋"; position:absolute; bottom:-18px; left:-5px; font-size:1.4rem; }
 .shadow { position:absolute; bottom:-12px; left:50%; width:110px; height:16px; margin-left:-55px; border-radius:50%; background:rgba(0,0,0,.28); filter:blur(6px); animation:shadow 3.6s ease-in-out infinite; }
-
+ 
 /* ================= SECTION TITLES ================= */
 .sec { display:flex; align-items:center; gap:.6rem; margin:1.4rem 0 .8rem; animation:fadeUp .7s ease both; }
 .sec h2 { margin:0; font-size:1.25rem; font-weight:700; color:var(--ink); }
 .sec .line { flex:1; height:2px; background:linear-gradient(90deg,rgba(79,70,229,.35),transparent); border-radius:2px; }
 .sec .sub { font-family:'Caveat',cursive; font-size:1.2rem; color:var(--violet); }
-
+ 
 /* ================= LEARNING JOURNEY ================= */
 .journey { display:grid; grid-template-columns:repeat(5,1fr); gap:.7rem; position:relative; }
 .stage {
@@ -182,7 +186,7 @@ header[data-testid="stHeader"] { background:transparent; }
 .stage b { display:block; color:var(--ink); margin-top:.3rem; font-size:.92rem; }
 .stage small { color:#64748b; font-size:.72rem; display:block; line-height:1.35; margin-top:.15rem; }
 .stage .age { display:inline-block; margin-top:.5rem; font-size:.68rem; font-weight:600; color:#fff; background:var(--c); padding:.1rem .6rem; border-radius:999px; }
-
+ 
 /* ================= PILLARS ================= */
 .pillars { display:grid; grid-template-columns:repeat(4,1fr); gap:.8rem; }
 .pillar {
@@ -194,7 +198,7 @@ header[data-testid="stHeader"] { background:transparent; }
 .pillar .ico { width:44px; height:44px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.4rem; background:var(--bg); margin-bottom:.5rem; animation:bob 4s ease-in-out infinite; }
 .pillar b { color:var(--ink); font-size:.95rem; }
 .pillar p { margin:.2rem 0 0; font-size:.76rem; color:#64748b; line-height:1.4; }
-
+ 
 /* ================= QUICK BUTTONS ================= */
 div[data-testid="stButton"] > button {
     width:100%; border-radius:16px; border:1px solid rgba(79,70,229,.2); background:#fff;
@@ -206,7 +210,7 @@ div[data-testid="stButton"] > button:hover {
     color:#fff; border-color:transparent; box-shadow:0 14px 24px -10px rgba(79,70,229,.6);
 }
 div[data-testid="stButton"] > button:active { transform:scale(.95); }
-
+ 
 /* ================= CHAT ================= */
 .chat-head {
     display:flex; align-items:center; gap:.9rem; padding:.8rem 1.1rem; margin:1.2rem 0 1rem;
@@ -220,11 +224,11 @@ div[data-testid="stButton"] > button:active { transform:scale(.95); }
 .chat-head small { opacity:.8; font-size:.75rem; display:flex; align-items:center; gap:.4rem; }
 .chat-head small i { width:7px; height:7px; border-radius:50%; background:#34d399; animation:pulse 1.6s infinite; }
 .chat-head .typing { margin-left:auto; }
-
+ 
 /* hidden role markers */
 div[data-testid="stElementContainer"]:has(.mk-user), div[data-testid="stElementContainer"]:has(.mk-bot),
 .element-container:has(.mk-user), .element-container:has(.mk-bot) { display:none !important; }
-
+ 
 .stChatMessage {
     border-radius:22px; padding:1rem 1.2rem; margin-bottom:.8rem;
     border:1px solid rgba(255,255,255,.9); background:var(--card); backdrop-filter:blur(10px);
@@ -235,13 +239,13 @@ div[data-testid="stElementContainer"]:has(.mk-user), div[data-testid="stElementC
 .stChatMessage:has(.mk-user) * { color:#fff !important; }
 .stChatMessage:has(.mk-bot) { margin-right:8%; border-left:5px solid var(--amber); }
 .stChatMessage [data-testid^="stChatMessageAvatar"] { background:rgba(255,255,255,.92); border-radius:50%; box-shadow:0 4px 10px -4px rgba(0,0,0,.3); }
-
+ 
 /* empty state */
 .welcome { text-align:center; padding:1.4rem 1rem 1rem; color:#475569; animation:fadeUp .8s ease both; }
 .welcome h3 { color:var(--ink); margin:.2rem 0; font-weight:700; }
 .dots span { display:inline-block; width:8px; height:8px; margin:0 2px; border-radius:50%; background:var(--indigo); animation:bounce 1.2s infinite ease-in-out; }
 .dots span:nth-child(2){animation-delay:.15s} .dots span:nth-child(3){animation-delay:.3s}
-
+ 
 /* input */
 div[data-testid="stChatInput"] {
     border-radius:26px; border:2px solid transparent;
@@ -250,7 +254,7 @@ div[data-testid="stChatInput"] {
 }
 div[data-testid="stChatInput"]:focus-within { transform:translateY(-3px); box-shadow:0 20px 50px -14px rgba(124,58,237,.65); }
 div[data-testid="stSpinner"] { color:var(--indigo); font-weight:500; }
-
+ 
 /* ================= SIDEBAR ================= */
 section[data-testid="stSidebar"] { background:linear-gradient(180deg,#1e1b4b 0%,#312e81 60%,#4338ca 100%); }
 section[data-testid="stSidebar"] * { color:#e0e7ff !important; }
@@ -263,7 +267,7 @@ section[data-testid="stSidebar"] * { color:#e0e7ff !important; }
 .side-card:hover { transform:translateX(6px); background:rgba(255,255,255,.15); }
 .side-card b { color:#fff !important; }
 .side-card small { opacity:.85; }
-
+ 
 /* ================= KEYFRAMES ================= */
 @keyframes gradientShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
 @keyframes fadeDown { from{opacity:0; transform:translateY(-26px)} to{opacity:1; transform:none} }
@@ -282,7 +286,7 @@ section[data-testid="stSidebar"] * { color:#e0e7ff !important; }
 @keyframes wave     { 0%,100%{transform:rotate(-8deg)} 25%{transform:rotate(-50deg)} 50%{transform:rotate(-8deg)} 75%{transform:rotate(-50deg)} }
 @keyframes swingL   { 0%,100%{transform:rotate(6deg)} 50%{transform:rotate(-4deg)} }
 @keyframes sayCycle { 0%{opacity:0; transform:translateY(8px)} 4%,22%{opacity:1; transform:none} 26%,100%{opacity:0; transform:translateY(-6px)} }
-
+ 
 @media (max-width:820px) {
     .hero { grid-template-columns:1fr; padding:1.6rem; }
     .hero h1 { font-size:1.8rem; }
@@ -294,29 +298,29 @@ section[data-testid="stSidebar"] * { color:#e0e7ff !important; }
 </style>
 """
 st.markdown(CSS, unsafe_allow_html=True)
-
+ 
 # ------------------------------------------------------------------
 # SIDEBAR
 # ------------------------------------------------------------------
 with st.sidebar:
     st.markdown('<div class="side-title">🎒 Parent Corner</div>', unsafe_allow_html=True)
-    st.markdown("""
+    st.markdown(ui("""
     <div class="side-card"><b>🤖 Presidium Buddy</b><br><small>Ask me anything about admissions, academics, activities and campus life.</small></div>
     <div class="side-card"><b>💡 Tip</b><br><small>Be specific. Mention a grade or topic for sharper answers.</small></div>
     <div class="side-card"><b>🕒 Available</b><br><small>24 x 7, instant replies</small></div>
-    """, unsafe_allow_html=True)
+    """), unsafe_allow_html=True)
     if st.button("🧹 Start new chat"):
         st.session_state.messages = []
         st.rerun()
-
+ 
 # ------------------------------------------------------------------
 # HERO + ROBOT
 # ------------------------------------------------------------------
-hero = """
+hero = ui("""
 <div class="hero">
     <span class="float f1">📚</span><span class="float f2">🔬</span><span class="float f3">✏️</span>
     <span class="float f4">📐</span><span class="float f5">🎨</span>
-
+ 
     <div class="hero-left">
         <span class="badge"><i></i> AI School Assistant · Online</span>
         <h1>Meet your <span>Presidium School Buddy</span></h1>
@@ -324,7 +328,7 @@ hero = """
         <div class="hand">Learn today, lead tomorrow ✨</div>
         <div class="logo-pill"><img src="__LOGO__" alt="logo"> Presidium School</div>
     </div>
-
+ 
     <div class="robot-wrap">
         <div class="say">
             <span>Hi! I'm your school buddy 👋</span>
@@ -345,13 +349,13 @@ hero = """
         </div>
     </div>
 </div>
-""".replace("__LOGO__", LOGO_URL)
-st.write(hero, unsafe_allow_html=True)
-
+""".replace("__LOGO__", LOGO_URL))
+st.markdown(hero, unsafe_allow_html=True)
+ 
 # ------------------------------------------------------------------
 # HIGH LEVEL SCHOOL INFO
 # ------------------------------------------------------------------
-st.markdown("""
+st.markdown(ui("""
 <div class="sec"><h2>🗺️ The School Journey</h2><div class="line"></div><span class="sub">a quick guide</span></div>
 <div class="journey">
     <div class="stage" style="--c:#f43f5e"><div class="ico">🧸</div><b>Pre-Primary</b><small>Play-based learning, early literacy &amp; social skills</small><span class="age">~ Ages 3-5</span></div>
@@ -360,7 +364,7 @@ st.markdown("""
     <div class="stage" style="--c:#0ea5e9"><div class="ico">🧪</div><b>Secondary</b><small>Board-level foundation &amp; study skills</small><span class="age">~ Grades 9-10</span></div>
     <div class="stage" style="--c:#7c3aed"><div class="ico">🎯</div><b>Senior Secondary</b><small>Stream choice &amp; career readiness</small><span class="age">~ Grades 11-12</span></div>
 </div>
-
+ 
 <div class="sec"><h2>🏫 What makes a great school</h2><div class="line"></div><span class="sub">ask me about each</span></div>
 <div class="pillars">
     <div class="pillar" style="--bg:#e0e7ff"><div class="ico">📘</div><b>Academics</b><p>Curriculum, teaching approach, assessments and learning support.</p></div>
@@ -368,10 +372,10 @@ st.markdown("""
     <div class="pillar" style="--bg:#d1fae5"><div class="ico">🛡️</div><b>Safety &amp; Care</b><p>Campus security, wellbeing, transport and a caring environment.</p></div>
     <div class="pillar" style="--bg:#fce7f3"><div class="ico">🤝</div><b>Community</b><p>Parent-teacher engagement, events and open communication.</p></div>
 </div>
-
+ 
 <div class="sec"><h2>⚡ Quick questions</h2><div class="line"></div><span class="sub">tap to ask</span></div>
-""", unsafe_allow_html=True)
-
+"""), unsafe_allow_html=True)
+ 
 quick = [
     ("🎓 Admissions", "How does the admission process work?"),
     ("💰 Fees", "What is the fee structure?"),
@@ -384,32 +388,32 @@ clicked = None
 for col, (label, text) in zip(cols, quick):
     if col.button(label, key=f"q_{label}"):
         clicked = text
-
+ 
 # ------------------------------------------------------------------
 # CHAT
 # ------------------------------------------------------------------
-st.markdown("""
+st.markdown(ui("""
 <div class="chat-head">
     <div class="mini-bot"></div>
     <div><b>Presidium School Buddy</b><small><i></i> Online · replies instantly</small></div>
     <div class="typing dots"><span></span><span></span><span></span></div>
 </div>
-""", unsafe_allow_html=True)
-
+"""), unsafe_allow_html=True)
+ 
 if not st.session_state.messages:
-    st.markdown("""
+    st.markdown(ui("""
     <div class="welcome">
         <h3>Hi there, parent! 👋</h3>
         <div>Pick a quick question above or type your own below.</div>
     </div>
-    """, unsafe_allow_html=True)
-
+    """), unsafe_allow_html=True)
+ 
 for message in st.session_state.messages:
     marker = "mk-user" if message["role"] == "user" else "mk-bot"
     with st.chat_message(message["role"], avatar = message.get("avatar")):
         st.markdown(f'<span class="{marker}"></span>', unsafe_allow_html=True)
         st.markdown(message["content"])
-
+ 
 # ------------------------------------------------------------------
 # INPUT
 # ------------------------------------------------------------------
