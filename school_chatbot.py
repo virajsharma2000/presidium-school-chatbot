@@ -20,6 +20,7 @@ def reply(prompt):
  context = ''
 
  for score, idx in zip(scores.squeeze(), indices.squeeze()):
+  st.write(str(index.metric_type == faiss.METRIC_INNER_PRODUCT))
   if score < 0.5:
    context += texts[idx] + '\n\n\n'
 
