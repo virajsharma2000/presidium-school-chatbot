@@ -1,4 +1,5 @@
 faiss-cpu
 requests
 streamlit
+sarvamai
 sentence-transformers
