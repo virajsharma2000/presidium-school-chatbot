@@ -346,7 +346,7 @@ hero = """
     </div>
 </div>
 """.replace("__LOGO__", LOGO_URL)
-st.markdown(hero, unsafe_allow_html=True)
+st.write(hero, unsafe_allow_html=True)
 
 # ------------------------------------------------------------------
 # HIGH LEVEL SCHOOL INFO
