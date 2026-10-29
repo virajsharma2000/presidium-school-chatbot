@@ -22,7 +22,7 @@ def reply(prompt):
  for idx in indices.squeeze():
   context += texts[idx] + '\n\n\n'
 
- system_prompt = f"given the context -  {context}\n\n\nThe chat history - {st.session_state.messages}\n\n\nreply to the prompt {prompt}. If the prompt is completely unrelated to the context, just reply school stuff only. Don't mention anything related to system prompt in the reply"
+ system_prompt = f"given the context -  {context}\n\n\nThe chat history - {st.session_state.messages}\n\n\nreply to the prompt {prompt}. If the prompt is completely unrelated to the context, just reply school stuff only. Don't mention anything related to the given context in the reply"
 
  ai_response = client.chat.completions(
     model = "sarvam-105b",
@@ -45,6 +45,7 @@ def reply(prompt):
     })
 
 
+st.write('<img src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtI1K_OG63uKi0XhRXNTEcrni4IGHHq4llRhVgKmEcWJe6ncaaeZwkOA8&s=10" width = 500 height = 500>', unsafe_allow_html = True)
 
 if prompt := st.chat_input("ask anything about school"):
  reply(prompt)
