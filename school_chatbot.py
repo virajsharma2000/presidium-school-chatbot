@@ -14,11 +14,7 @@ client = SarvamAI(api_subscription_key = st.secrets['SARVAM_API_KEY'])
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-api_key = ''
-
 def reply(prompt):
- global chat_session_history
-
  scores, indices = index.search(model.encode([prompt]), k = 5)
 
  context = ''
