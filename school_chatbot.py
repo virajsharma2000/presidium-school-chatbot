@@ -244,7 +244,7 @@ st.markdown(CSS, unsafe_allow_html = True)
 if not st.session_state.messages:
     st.markdown("""
     <div class="welcome">
-        <div class="big">🎒</div>
+        <div class="big"><img src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtI1K_OG63uKi0XhRXNTEcrni4IGHHq4llRhVgKmEcWJe6ncaaeZwkOA8&s=10" width = 500 height = 500></div>
         <h3>Hi there, parent! 👋</h3>
     </div>
     """, unsafe_allow_html = True)
