@@ -21,7 +21,7 @@ def reply(prompt):
 
  for score, idx in zip(scores.squeeze(), indices.squeeze()):
   if score < 0.5:
-   st.write(texts[idx])
+   st.write(index.metric_type)
    context += texts[idx] + '\n\n\n'
 
  system_prompt = f"given the context -  {context}\n\n\nThe chat history - {st.session_state.messages}\n\n\nreply to the prompt {prompt}. If the prompt is completely unrelated to the context, just reply school stuff only. Don't mention anything related to the given context in the reply"
