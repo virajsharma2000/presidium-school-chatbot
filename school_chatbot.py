@@ -15,12 +15,13 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 def reply(prompt):
- scores, indices = index.search(model.encode([prompt]), k = 5)
+ scores, indices = index.search(model.encode([prompt]), k = 10)
 
  context = ''
 
- for idx in indices.squeeze():
-  context += texts[idx] + '\n\n\n'
+ for score, idx in zip(scores, indices.squeeze()):
+  if score < 0.5:
+   context += texts[idx] + '\n\n\n'
 
  system_prompt = f"given the context -  {context}\n\n\nThe chat history - {st.session_state.messages}\n\n\nreply to the prompt {prompt}. If the prompt is completely unrelated to the context, just reply school stuff only. Don't mention anything related to the given context in the reply"
 
