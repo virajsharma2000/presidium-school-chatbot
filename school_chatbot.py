@@ -20,6 +20,7 @@ def reply(prompt):
  context = ''
 
  for score, idx in zip(scores, indices.squeeze()):
+  print(score)
   if float(score) < 0.5:
    context += texts[idx] + '\n\n\n'
 
