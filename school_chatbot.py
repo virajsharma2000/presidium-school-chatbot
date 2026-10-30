@@ -9,8 +9,7 @@ with open('school_website_rag.json', 'r') as f:
 
 model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
 index = faiss.read_index('school_vector_db.index')
-client = SarvamAI(api_subscription_key = "YOUR_API_KEY")
-#st.secrets['SARVAM_API_KEY']
+client = SarvamAI(api_subscription_key = st.secrets['SARVAM_API_KEY'])
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
