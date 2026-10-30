@@ -9,7 +9,8 @@ with open('school_website_rag.json', 'r') as f:
 
 model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
 index = faiss.read_index('school_vector_db.index')
-client = SarvamAI(api_subscription_key = st.secrets['SARVAM_API_KEY'])
+client = SarvamAI(api_subscription_key = "YOUR_API_KEY")
+#st.secrets['SARVAM_API_KEY']
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -114,7 +115,7 @@ header[data-testid="stHeader"] { background:transparent; }
 }
 .badge i { width:8px; height:8px; border-radius:50%; background:#34d399; animation:pulse 1.6s infinite; }
 .hero h1 { margin:.8rem 0 0; font-size:2.5rem; line-height:1.1; font-weight:800; letter-spacing:-.8px; }
-.hero h1 span { background:linear-gradient(90deg,#fde68a,#fff); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.hero h1 span { background:#fde68a; -webkit-background-clip:text; background-clip:text; color:transparent; }
 .hero p { margin:.7rem 0 0; opacity:.93; font-size:1rem; max-width:470px; }
 .hero .hand { font-family:'Caveat',cursive; font-size:1.6rem; margin-top:.7rem; opacity:.97; }
 .logo-pill {
@@ -324,7 +325,7 @@ hero = ui("""
  
     <div class="hero-left">
         <span class="badge"><i></i> AI School Assistant · Online</span>
-        <h1>Meet your <span>Presidium School Buddy</span></h1>
+        <h1>Meet your <span>Presidium School Buddy Admissions open 2026-2027</span></h1>
         <p>Instant answers about admissions, academics, activities and everything in between, without the phone calls.</p>
         <div class="hand">Learn today, lead tomorrow ✨</div>
         <div class="logo-pill"><img src="__LOGO__" alt="logo"> Presidium School</div>
@@ -379,7 +380,6 @@ st.markdown(ui("""
  
 quick = [
     ("🎓 Admissions", "How does the admission process work?"),
-    ("💰 Fees", "What is the fee structure?"),
     ("🏫 Facilities", "What facilities does the school offer?"),
     ("⚽ Activities", "What sports and extracurricular activities are available?"),
     ("🚌 Transport", "Tell me about school transport"),
